@@ -76,7 +76,7 @@ pipeline {
                          sh """
                             set -e
                             echo "Logging into Docker..."
-                            echo "$DOCKER_PASS" | sudo docker login -u "$DOCKER_USER" --password-stdin
+                            echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
                             sudo docker push ${IMAGE_NAME}:${IMAGE_TAG}
                             sudo docker logout
                          """
@@ -85,5 +85,30 @@ pipeline {
             }
         }
     }
+
+    post {
+        SUCCESS {
+            echo "Docker Build, Test and Push completed successfully! Now cleaning up"
+            script {
+                sh """ 
+                sudo docker stop myapp-test
+                sudo docker rm myapp-test
+                sudo docker rmi ${IMAGE_NAME}:${IMAGE_TAG} || true
+                """
+            }
+        }
+        faliure {
+            echo "Docker Build, Test and Push failed! Now cleaning up"
+            script {
+                sh """ 
+                sudo docker stop myapp-test
+                sudo docker rm myapp-test
+                sudo docker rmi ${IMAGE_NAME}:${IMAGE_TAG} || true
+                """
+            }
+        }
+    }
 }
         
+
+
