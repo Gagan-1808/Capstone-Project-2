@@ -76,7 +76,7 @@ pipeline {
                          sh """
                             set -e
                             echo "Logging into Docker..."
-                            echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+                            echo "$DOCKER_PASS" | sudo docker login -u "$DOCKER_USER" --password-stdin
                             sudo docker push ${IMAGE_NAME}:${IMAGE_TAG}
                             sudo docker logout
                          """
