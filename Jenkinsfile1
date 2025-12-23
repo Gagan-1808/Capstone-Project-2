@@ -4,10 +4,10 @@ pipeline {
     triggers {
         githubPush()
         }
-    
+    stages {
+        
         stage('Deploy to K8 cluster') {
-           
-            steps {
+           steps {
                 script {
                     echo "Deploying..."
                     sh """
@@ -17,7 +17,6 @@ pipeline {
                 }
             }
         }
-        
 
         stage('Test Deployment') {
             steps {
@@ -31,10 +30,8 @@ pipeline {
                 }
             }
         }
+    }
         
-
-        
-
     post {
         success {
             echo "Deployment Successfull"
@@ -45,5 +42,3 @@ pipeline {
     }
 }
         
-
-
