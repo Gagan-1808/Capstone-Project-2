@@ -87,8 +87,9 @@ pipeline {
     }
 
     post {
-        success {
+        SUCCESS {
             echo "Docker Build, Test and Push completed successfully! Now cleaning up"
+            agent { label 'mytest' }
             script {
                 sh """ 
                 sudo docker stop myapp-test
@@ -99,6 +100,7 @@ pipeline {
         }
         failure {
             echo "Docker Build, Test and Push failed! Now cleaning up"
+            agent { label 'mytest' }
             script {
                 sh """ 
                 sudo docker stop myapp-test
