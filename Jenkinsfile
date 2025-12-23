@@ -11,21 +11,18 @@ pipeline {
     }
 
     stages {
+
         stage('Checkout Code') {
-            agent {
-                label 'mytest'
-            }
+            agent { label 'mytest' }
             steps {
                 echo "Fetching latest code from GitHub..."
                 checkout scm
             }
         }
-    }
+    
 
         stage('Build Docker Image') {
-           agent {
-                    label 'mytest'
-                 }
+           agent { label 'mytest' }
             steps {
                 script {
                     echo "Building Docker image..."
@@ -35,11 +32,10 @@ pipeline {
                 }
             }
         }
+        
 
         stage('Run Docker Container') {
-           agent {
-                    label 'mytest'
-                 }
+           agent { label 'mytest' }
             steps {
                 script {
                     echo "Running container for testing..."
@@ -49,11 +45,10 @@ pipeline {
                 }
             }
         }
+        
 
         stage('Test Docker Container') {
-            agent {
-                    label 'mytest'
-                 }
+            agent { label 'mytest' }
             steps {
                 script {
                     echo "Testing container health..."
@@ -65,4 +60,6 @@ pipeline {
                 }
             }
         }
+    }
 }
+        
