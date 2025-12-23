@@ -1,0 +1,48 @@
+pipeline {
+    agent { label 'mytest' }
+
+    triggers {
+        githubPush()
+        }
+    
+        stage('Deploy to K8 cluster') {
+           
+            steps {
+                script {
+                    echo "Deploying..."
+                    sh """
+                        kubectl apply -f deployment.yml
+                        kubectl apply -f service.yml
+                    """
+                }
+            }
+        }
+        
+
+        stage('Test Deployment') {
+            steps {
+                script {
+                    echo "test deployment.."
+                    sh """
+                        kubectl rollout status deployment/myapp --timeout=120s
+                        kubectl wait --for=condition=Ready pod -l app=pdd --timeout=120s
+                    """
+                }
+            }
+        }
+        
+
+        
+
+    post {
+        success {
+            echo "Deployment Successfull"
+        }
+        failure {
+            echo "Deployment failed"
+        }
+    }
+}
+        
+
+
