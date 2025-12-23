@@ -27,7 +27,7 @@ pipeline {
                 script {
                     echo "Building Docker image..."
                     sh """
-                        sudo docker build -t ${IMAGE_NAME}:${IMAGE_TAG} .
+                        docker build -t ${IMAGE_NAME}:${IMAGE_TAG} .
                     """
                 }
             }
@@ -40,7 +40,7 @@ pipeline {
                 script {
                     echo "Running container for testing..."
                     sh """
-                        sudo docker run -d --name myapp-test -p 80:80 ${IMAGE_NAME}:${IMAGE_TAG}
+                        docker run -d --name myapp-test -p 80:80 ${IMAGE_NAME}:${IMAGE_TAG}
                     """
                 }
             }
@@ -55,8 +55,32 @@ pipeline {
                     // Example test: check if container is running
                     sh """
                         sleep 10
-                        sudo docker ps | grep myapp-test
+                        docker ps | grep myapp-test
                     """
+                }
+            }
+        }
+
+        stage('Push to Dockerhub and Logout') {
+            agent { label 'mytest' }
+            when {
+                expression { currentBuild.currentResult == "SUCCESS" }
+            }
+            steps {
+                script {
+                    withCredentials([usernamePassword(
+                        credentialsId: 'Dhub', 
+                        usernameVariable: 'DOCKER_USER', 
+                        passwordVariable: 'DOCKER_PASS'
+                    )]) {
+                         sh """
+                            set -e
+                            echo "Logging into Docker..."
+                            echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+                            docker push ${IMAGE_NAME}:${IMAGE_TAG}
+                            docker logout
+                         """
+                    }
                 }
             }
         }
