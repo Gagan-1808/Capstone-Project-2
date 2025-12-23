@@ -97,7 +97,7 @@ pipeline {
                 """
             }
         }
-        faliure {
+        failure {
             echo "Docker Build, Test and Push failed! Now cleaning up"
             script {
                 sh """ 
