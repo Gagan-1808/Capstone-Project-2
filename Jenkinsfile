@@ -40,7 +40,7 @@ pipeline {
                 script {
                     echo "Running container for testing..."
                     sh """
-                        docker run -d --name myapp-test -p 80:80 ${IMAGE_NAME}:${IMAGE_TAG}
+                        sudo docker run -d --name myapp-test -p 80:80 ${IMAGE_NAME}:${IMAGE_TAG}
                     """
                 }
             }
@@ -55,7 +55,7 @@ pipeline {
                     // Example test: check if container is running
                     sh """
                         sleep 10
-                        docker ps | grep myapp-test
+                        sudo docker ps | grep myapp-test
                     """
                 }
             }
