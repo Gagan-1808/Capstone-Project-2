@@ -13,7 +13,7 @@ pipeline {
     stages {
         stage('Checkout Code') {
             agent {
-                label 'test1'
+                label 'mytest'
             }
             steps {
                 echo "Fetching latest code from GitHub..."
@@ -23,7 +23,7 @@ pipeline {
 
         stage('Build Docker Image') {
            agent {
-                    label 'test1'
+                    label 'mytest'
                  }
             steps {
                 script {
@@ -37,7 +37,7 @@ pipeline {
 
         stage('Run Docker Container') {
            agent {
-                    label 'test1'
+                    label 'mytest'
                  }
             steps {
                 script {
@@ -51,7 +51,7 @@ pipeline {
 
         stage('Test Docker Container') {
             agent {
-                    label 'test1'
+                    label 'mytest'
                  }
             steps {
                 script {
