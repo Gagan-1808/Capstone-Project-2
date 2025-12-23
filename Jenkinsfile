@@ -87,7 +87,7 @@ pipeline {
     }
 
     post {
-        SUCCESS {
+        success {
             echo "Docker Build, Test and Push completed successfully! Now cleaning up"
             script {
                 sh """ 
