@@ -27,7 +27,7 @@ pipeline {
                 script {
                     echo "Building Docker image..."
                     sh """
-                        docker build -t ${IMAGE_NAME}:${IMAGE_TAG} .
+                        sudo docker build -t ${IMAGE_NAME}:${IMAGE_TAG} .
                     """
                 }
             }
@@ -40,7 +40,7 @@ pipeline {
                 script {
                     echo "Running container for testing..."
                     sh """
-                        docker run -d --name myapp-test -p 80:80 ${IMAGE_NAME}:${IMAGE_TAG}
+                        sudo docker run -d --name myapp-test -p 80:80 ${IMAGE_NAME}:${IMAGE_TAG}
                     """
                 }
             }
@@ -55,7 +55,7 @@ pipeline {
                     // Example test: check if container is running
                     sh """
                         sleep 10
-                        docker ps | grep myapp-test
+                        sudo docker ps | grep myapp-test
                     """
                 }
             }
@@ -77,8 +77,8 @@ pipeline {
                             set -e
                             echo "Logging into Docker..."
                             echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
-                            docker push ${IMAGE_NAME}:${IMAGE_TAG}
-                            docker logout
+                            sudo docker push ${IMAGE_NAME}:${IMAGE_TAG}
+                            sudo docker logout
                          """
                     }
                 }
