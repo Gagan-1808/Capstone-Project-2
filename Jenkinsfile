@@ -89,27 +89,29 @@ pipeline {
     post {
         success {
             echo "Docker Build, Test and Push completed successfully! Now cleaning up"
-            node('mytest')
-            steps {
-                script {
-                    sh """ 
-                    sudo docker stop myapp-test
-                    sudo docker rm myapp-test
-                    sudo docker rmi ${IMAGE_NAME}:${IMAGE_TAG} || true
-                    """
+            node('mytest') {
+                steps {
+                    script {
+                        sh """ 
+                        sudo docker stop myapp-test
+                        sudo docker rm myapp-test
+                        sudo docker rmi ${IMAGE_NAME}:${IMAGE_TAG} || true
+                        """
+                    }
                 }
             }
         }
         failure {
             echo "Docker Build, Test and Push failed! Now cleaning up"
-            node('mytest')
-            steps {
-                script {
-                    sh """ 
-                    sudo docker stop myapp-test
-                    sudo docker rm myapp-test
-                    sudo docker rmi ${IMAGE_NAME}:${IMAGE_TAG} || true
-                    """
+            node('mytest') {
+                steps {
+                    script {
+                        sh """ 
+                        sudo docker stop myapp-test
+                        sudo docker rm myapp-test
+                        sudo docker rmi ${IMAGE_NAME}:${IMAGE_TAG} || true
+                        """
+                    }
                 }
             }
         }
