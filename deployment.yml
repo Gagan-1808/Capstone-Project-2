@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
       - name: appdeploy
-        image: raichu08/myapp:v27
+        image: raichu08/myapp:v3
         ports:
         - containerPort: 80
