@@ -32,4 +32,9 @@ Steps:
 9-> Verify the same in K8 ec2 instance:  
 <img width="678" height="234" alt="image" src="https://github.com/user-attachments/assets/75b8d2bb-6f8a-4dab-92e0-dc097fa88c1b" />
 
-10-> Also you can 
+10-> Also you can also verify the same in browser   
+<img width="998" height="727" alt="image" src="https://github.com/user-attachments/assets/796bf995-a157-423c-9a6f-c70db76ed5d8" />
+<img width="919" height="682" alt="image" src="https://github.com/user-attachments/assets/71108add-3000-46ea-a6f5-0a3cb8b808d6" />
+
+
+NOTE: ALL THE manifest files used are there in this project repo.
