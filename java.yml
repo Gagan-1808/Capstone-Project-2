@@ -1,0 +1,30 @@
+---
+- name: Install latest Java JDK on Ubuntu
+  hosts: localhost, test, K8
+  become: yes
+
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Install latest OpenJDK (JDK 21 LTS)
+      apt:
+        name: openjdk-21-jdk
+        state: present
+
+    - name: Set JAVA_HOME
+      lineinfile:
+        path: /etc/environment
+        line: 'JAVA_HOME="/usr/lib/jvm/java-21-openjdk-amd64"'
+        create: yes
+
+    - name: Verify Java installation
+      command: java -version
+      register: java_version
+      changed_when: false
+
+    - name: Show Java version
+      debug:
+        msg: "{{ java_version.stderr }}"
