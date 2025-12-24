@@ -1,5 +1,5 @@
 pipeline {
-    agent { label 'mytest' }
+    agent { label 'K8' }
 
     triggers {
         githubPush()
