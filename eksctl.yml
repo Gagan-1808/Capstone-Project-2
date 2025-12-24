@@ -1,0 +1,44 @@
+---
+- name: Install eksctl on Ubuntu
+  hosts: K8
+  become: yes
+  tasks:
+
+    - name: Install required packages
+      apt:
+        name:
+          - curl
+          - tar
+          - gzip
+        state: present
+        update_cache: yes
+
+    - name: Download latest eksctl release
+      get_url:
+        url: "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_{{ ansible_system | lower }}_amd64.tar.gz"
+        dest: /tmp/eksctl.tar.gz
+        timeout: 120   
+        mode: '0644'
+
+    - name: Extract eksctl
+      unarchive:
+        src: /tmp/eksctl.tar.gz
+        dest: /tmp/
+        remote_src: yes
+        creates: /tmp/eksctl
+
+    - name: Move eksctl binary to /usr/local/bin
+      copy:
+        src: /tmp/eksctl
+        dest: /usr/local/bin/eksctl
+        mode: '0755'
+        remote_src: yes
+
+    - name: Verify eksctl installation
+      command: eksctl version
+      register: eksctl_version
+      changed_when: false
+
+    - name: Show eksctl version
+      debug:
+        msg: "{{ eksctl_version.stdout }}"
