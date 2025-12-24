@@ -13,7 +13,7 @@ pipeline {
     stages {
 
         stage('Checkout Code') {
-            agent { label 'mytest' }
+            agent { label 'test' }
             steps {
                 echo "Fetching latest code from GitHub..."
                 checkout scm
@@ -22,7 +22,7 @@ pipeline {
     
 
         stage('Build Docker Image') {
-           agent { label 'mytest' }
+           agent { label 'test' }
             steps {
                 script {
                     echo "Building Docker image..."
@@ -35,7 +35,7 @@ pipeline {
         
 
         stage('Run Docker Container') {
-           agent { label 'mytest' }
+           agent { label 'test' }
             steps {
                 script {
                     echo "Running container for testing..."
@@ -48,7 +48,7 @@ pipeline {
         
 
         stage('Test Docker Container') {
-            agent { label 'mytest' }
+            agent { label 'test' }
             steps {
                 script {
                     echo "Testing container health..."
@@ -62,7 +62,7 @@ pipeline {
         }
 
         stage('Push to Dockerhub and Logout') {
-            agent { label 'mytest' }
+            agent { label 'test' }
             when {
                 expression { currentBuild.currentResult == "SUCCESS" }
             }
@@ -89,7 +89,7 @@ pipeline {
     post {
         success {
             echo "Docker Build, Test and Push completed successfully! Now cleaning up"
-            node('mytest') {
+            node('test') {
                 script {
                     sh """ 
                     sudo docker stop myapp-test
@@ -101,7 +101,7 @@ pipeline {
         }
         failure {
             echo "Docker Build, Test and Push failed! Now cleaning up"
-            node('mytest') {
+            node('test') {
                 script {
                     sh """ 
                     sudo docker stop myapp-test
