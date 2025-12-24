@@ -27,3 +27,9 @@ Steps:
 <img width="1011" height="521" alt="image" src="https://github.com/user-attachments/assets/dceb82fb-a33d-4e9c-81e9-9cdaed2c9103" />
 
 8-> Create another pipeline to deploy app to kubernetes cluster. Used Pipeline and Jenkinsfile1 for that
+<img width="991" height="479" alt="image" src="https://github.com/user-attachments/assets/5d491067-3e09-4a5f-abef-073bcf406265" />
+
+9-> Verify the same in K8 ec2 instance:  
+<img width="678" height="234" alt="image" src="https://github.com/user-attachments/assets/75b8d2bb-6f8a-4dab-92e0-dc097fa88c1b" />
+
+10-> Also you can 
